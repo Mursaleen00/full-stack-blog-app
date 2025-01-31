@@ -1,0 +1,21 @@
+{
+  "name": "full-stack-blog-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mursaleen00/full-stack-blog-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mursaleen00/full-stack-blog-app/issues"
+  },
+  "homepage": "https://github.com/Mursaleen00/full-stack-blog-app#readme",
+  "description": ""
+}
