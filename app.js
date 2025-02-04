@@ -1,34 +1,53 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
+const connectToDB = require("./config/db");
+const dotenv = require("dotenv");
+const session = require("express-session");
+const flash = require("express-flash");
+
 const app = express();
 
-const dotenv = require("dotenv");
 dotenv.config();
 
 const LoginRoute = require("./routes/login.routes");
 const RegisterRoute = require("./routes/register.routes");
+const HomeRoute = require("./routes/home.routes");
 
-const session = require("express-session");
 app.use(
   session({
-    secret: "your-secret-key", // Replace with a strong secret key
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }, // Set to true if using HTTPS
+    cookie: { secure: false },
   })
 );
 
-const flash = require("express-flash");
 app.use(flash());
+app.use(cookieParser());
 
-const connectToDB = require("./config/db");
 connectToDB();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
 
 app.set("view engine", "ejs");
 
+app.use((req, res, next) => {
+  const token = req.cookies.token;
+  const pathName = req.path.split("/")[1];
+
+  if (pathName === "auth") {
+    if (token) return res.redirect("/");
+  } else {
+    if (!token) return res.redirect("/auth/login");
+  }
+
+  next();
+});
+
 app.use("/auth", LoginRoute);
 app.use("/auth", RegisterRoute);
+app.use("/", HomeRoute);
 
 app.listen(3000);

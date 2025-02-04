@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const router = express.Router();
 const { body, validationResult } = require("express-validator");
 const RegisterModel = require("../models/register.model");
+const jwt = require("jsonwebtoken");
 
 // Render the login page
 router.get("/login", (req, res) => {
@@ -52,8 +53,19 @@ router.post(
         return res.redirect("/auth/login");
       }
 
+      const token = jwt.sign(
+        {
+          userId: user.id,
+          email: user.email,
+        },
+        process.env.JWT_SECRET
+      );
+
+      res.cookie("token", token);
+
       req.flash("success", "Login successful!");
       res.redirect("/");
+      console.log(req.cookies.token);
     } catch (error) {
       console.error("Login error:", error);
       req.flash("error", "An error occurred during login");

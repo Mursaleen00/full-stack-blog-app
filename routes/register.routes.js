@@ -2,10 +2,11 @@ const express = require("express");
 const RegisterModel = require("../models/register.model");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcrypt"); // For password hashing
+const jwt = require("jsonwebtoken");
 const router = express.Router();
 
 // Render the register page
-router.get("/register", (req, res) => res.render("auth/register"));
+router.get("/register", (_, res) => res.render("auth/register"));
 
 // Handle registration form submission
 router.post(
@@ -47,7 +48,7 @@ router.post(
       const newUser = await RegisterModel.create({
         name,
         email,
-        password: hashedPassword, // Save the hashed password
+        password: hashedPassword,
       });
 
       req.flash(
@@ -55,7 +56,15 @@ router.post(
         "Registration successful! Please login to continue."
       );
 
-      // Redirect to login page after successful registration
+      const token = jwt.sign(
+        {
+          userId: newUser.id,
+          email: newUser.email,
+        },
+        process.env.JWT_SECRET
+      );
+
+      res.cookie("token", token);
       res.redirect("/auth/login");
     } catch (error) {
       console.error("Registration error:", error);
