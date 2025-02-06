@@ -1,9 +1,8 @@
 {
   "name": "full-stack-blog-app",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
     "build:css": "tailwindcss -i ./public/css/styles.css -o ./public/css/output.css --watch"
   },
