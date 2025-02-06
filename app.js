@@ -4,6 +4,7 @@ const connectToDB = require("./config/db");
 const dotenv = require("dotenv");
 const session = require("express-session");
 const flash = require("express-flash");
+const path = require("path");
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 app.use((req, res, next) => {
   const token = req.cookies.token;
