@@ -6,13 +6,17 @@ const session = require("express-session");
 const flash = require("express-flash");
 const path = require("path");
 
+const jwt = require("jsonwebtoken");
+
 const app = express();
 
 dotenv.config();
 
-const LoginRoute = require("./routes/login.routes");
-const RegisterRoute = require("./routes/register.routes");
 const HomeRoute = require("./routes/home.routes");
+const LoginRoute = require("./routes/login.routes");
+const WritersRoute = require("./routes/writers.routes");
+const ProfileRoute = require("./routes/profile.routes");
+const RegisterRoute = require("./routes/register.routes");
 
 app.use(
   session({
@@ -27,10 +31,10 @@ app.use(flash());
 app.use(cookieParser());
 
 connectToDB();
+app.use(express.static("public"));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -39,11 +43,15 @@ app.use((req, res, next) => {
   const token = req.cookies.token;
   const pathName = req.path.split("/")[1];
 
-  if (pathName === "auth") {
-    if (token) return res.redirect("/");
-  } else {
-    if (!token) return res.redirect("/auth/login");
-  }
+  const isValidToken = token
+    ? jwt.verify(token, process.env.JWT_SECRET)
+    : undefined;
+
+  // if (pathName === "auth") {
+  //   if (isValidToken) return res.redirect("/");
+  // } else {
+  //   if (!isValidToken) return res.redirect("/auth/login");
+  // }
 
   next();
 });
@@ -51,5 +59,7 @@ app.use((req, res, next) => {
 app.use("/auth", LoginRoute);
 app.use("/auth", RegisterRoute);
 app.use("/", HomeRoute);
+app.use("/", ProfileRoute);
+app.use("/", WritersRoute);
 
 app.listen(3000);

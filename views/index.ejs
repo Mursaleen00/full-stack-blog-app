@@ -3,37 +3,63 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Blog App</title>
+    <title>Home - My Blog App</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .gradient-bg {
+        background: linear-gradient(135deg, #4f46e5, #9333ea);
+      }
+      .card-hover {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      }
+      .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+    </style>
   </head>
   <body class="bg-gray-100">
-    <header
-      class="bg-blue-600 text-white p-4 flex justify-between items-center"
-    >
-      <h1 class="text-2xl font-bold">My Blog App</h1>
-      <button id="logout">Logout</button>
-    </header>
-    <main class="p-4">
-      <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-xl font-semibold mb-4">Welcome to My Blog App!</h2>
-        <p class="text-gray-700">
-          This is a simple blog app built with EJS and Tailwind CSS.
-        </p>
-        <a
-          href="/auth/login"
-          class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-        >
-          Login
-        </a>
-      </div>
-    </main>
-    <!-- <script src="/js/index.js"></script> -->
+    <!-- Navbar -->
+    <%- include('partials/navbar', { user }) %>
 
-    <script>
-      document.getElementById("logout").addEventListener("click", function () {
-        document.cookie = "token" + "=;expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-        window.location.href = "/auth/login";
-      });
-    </script>
+    <!-- Hero Section -->
+    <div class="gradient-bg py-20">
+      <div class="max-w-4xl mx-auto text-center px-4">
+        <h1 class="text-5xl font-bold text-white mb-6">
+          Welcome to My Blog App
+        </h1>
+        <p class="text-xl text-gray-200 mb-8">
+          Discover amazing stories, ideas, and insights from our community of
+          writers.
+        </p>
+
+        <% if (user?.name) { %> <%- include('partials/button', {
+        link:"/writers", title:"Explore Writers" }) %> <% } else { %> <%-
+        include('partials/button', { link: '/auth/register', title:"Get Started"
+        }) %> <% } %>
+      </div>
+    </div>
+
+    <!-- Featured Blogs Section -->
+    <div class="max-w-6xl mx-auto px-4 py-16">
+      <h2 class="text-3xl font-bold text-gray-800 mb-8">Featured Blogs</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Blog Card -->
+        <%- include('partials/blog-card', {
+        profilePicture:"https://placehold.co/600x400" }) %> <%-
+        include('partials/blog-card', {
+        profilePicture:"https://placehold.co/600x400" }) %> <%-
+        include('partials/blog-card', { profilePicture: undefined }) %> <%-
+        include('partials/blog-card', { profilePicture: undefined }) %>
+
+        <!-- Repeat Blog Cards as Needed -->
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <%- include('partials/footer') %>
   </body>
 </html>
+
+<!-- user?. -->

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Profile - My Blog App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .input-focus:focus {
+        border-color: #6366f1;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100">
+    <!-- Include Navbar -->
+    <%- include('partials/navbar', { user }) %>
+
+    <!-- Edit Profile Section -->
+    <div class="max-w-4xl mx-auto px-4 py-16">
+      <div class="mb-8 flex flex-col gap-y-8">
+        <%- include('./partials/back-button') %>
+        <h1 class="text-3xl font-bold text-gray-800">Edit Profile</h1>
+      </div>
+
+      <div class="bg-white p-8 rounded-lg shadow-md">
+        <!-- Profile Picture Upload -->
+        <div class="mb-8">
+          <h2 class="text-xl font-bold text-gray-800 mb-4">Profile Picture</h2>
+          <div class="flex items-center space-x-6">
+            <img
+              src="<%= user.profilePicture %>"
+              alt="Profile Picture"
+              class="w-20 h-20 rounded-full object-cover"
+            />
+            <form
+              action="/upload-profile-picture"
+              method="POST"
+              enctype="multipart/form-data"
+              class="flex items-center space-x-4"
+            >
+              <input
+                type="file"
+                id="profilePicture"
+                name="profilePicture"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg input-focus focus:outline-none"
+                accept="image/*"
+                required
+              />
+              <button
+                type="submit"
+                class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all"
+              >
+                Upload
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Update Name and Email -->
+        <div class="mb-8">
+          <h2 class="text-xl font-bold text-gray-800 mb-4">Update Details</h2>
+          <form action="/update-profile" method="POST">
+            <div class="mb-6">
+              <label
+                for="name"
+                class="block text-sm font-medium text-gray-700 mb-2"
+                >Name</label
+              >
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value="<%= user.name %>"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg input-focus focus:outline-none"
+                required
+              />
+            </div>
+            <div class="mb-6">
+              <label
+                for="email"
+                class="block text-sm font-medium text-gray-700 mb-2"
+                >Email</label
+              >
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value="<%= user.email %>"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg input-focus focus:outline-none"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all"
+            >
+              Save Changes
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Include Footer -->
+    <%- include('partials/footer') %>
+  </body>
+</html>

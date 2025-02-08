@@ -8,6 +8,10 @@ const RegisterSchema = new Schema({
     unique: true,
     type: String,
   },
+  profilePicture: {
+    type: String,
+    default: "https://via.placeholder.com/150",
+  },
   name: {
     type: String,
     required: true,

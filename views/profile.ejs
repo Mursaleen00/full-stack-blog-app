@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile - My Blog App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100">
+    <!-- Navbar -->
+    <%- include('partials/navbar', { user}) %>
+
+    <!-- Profile Section -->
+    <div class="max-w-4xl mx-auto px-4 py-16">
+      <div class="mb-8 flex flex-col gap-y-8">
+        <%- include('./partials/back-button') %>
+        <h1 class="text-3xl font-bold text-gray-800">Your Profile</h1>
+      </div>
+
+      <div class="bg-white p-8 rounded-lg shadow-md">
+        <div class="flex items-center space-x-6">
+          <img
+            src="<%= user?.profilePicture %>"
+            alt="Profile Picture"
+            class="w-20 h-20 rounded-full object-cover"
+          />
+          <div>
+            <h2 class="text-2xl font-bold text-gray-800"><%= user?.name %></h2>
+            <p class="text-gray-600"><%= user?.email %></p>
+          </div>
+        </div>
+        <div class="mt-8">
+          <a
+            href="/profile/edit"
+            class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all"
+          >
+            Edit Profile
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

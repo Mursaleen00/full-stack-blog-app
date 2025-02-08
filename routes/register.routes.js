@@ -65,7 +65,7 @@ router.post(
       );
 
       res.cookie("token", token);
-      res.redirect("/auth/login");
+      res.redirect("/");
     } catch (error) {
       console.error("Registration error:", error);
 
