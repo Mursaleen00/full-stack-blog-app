@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const userModal = require("../models/register.model");
-const upload = require("../config/multer");
 
 const VerifyUser = require("../utils/get-verify-user.util");
+
+const { profileStorage } = require("../storage/storage");
+const multer = require("multer");
+const upload = multer({ storage: profileStorage });
 
 // Profile View Page
 router.get("/profile", async (req, res) => {
@@ -38,27 +41,17 @@ router.post("/update-profile", async (req, res) => {
 
 router.post(
   "/upload-profile-picture",
-  upload.single("profilePicture"),
+  upload.single("image"),
   async (req, res) => {
     const token = req.cookies.token;
     const user = await VerifyUser(token);
+    const userId = user._id;
 
-    try {
-      if (!req.file)
-        return res.status(400).json({ message: "No file uploaded" });
+    await userModal.findByIdAndUpdate(userId, {
+      profilePicture: req.file.path,
+    });
 
-      const userId = user._id;
-
-      const profilePictureUrl = `/uploads/${req.file.filename}`;
-
-      await userModal.findByIdAndUpdate(userId, {
-        profilePicture: profilePictureUrl,
-      });
-
-      res.redirect("/profile");
-    } catch (error) {
-      console.error("Upload error:", error);
-    }
+    res.redirect("/profile");
   }
 );
 

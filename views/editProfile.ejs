@@ -29,7 +29,7 @@
           <h2 class="text-xl font-bold text-gray-800 mb-4">Profile Picture</h2>
           <div class="flex items-center space-x-6">
             <img
-              src="<%= user.profilePicture %>"
+              src="<%= user?.profilePicture %>"
               alt="Profile Picture"
               class="w-20 h-20 rounded-full object-cover"
             />
@@ -42,11 +42,12 @@
               <input
                 type="file"
                 id="profilePicture"
-                name="profilePicture"
+                name="image"
                 class="w-full px-4 py-3 border border-gray-300 rounded-lg input-focus focus:outline-none"
                 accept="image/*"
                 required
               />
+
               <button
                 type="submit"
                 class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all"
@@ -71,7 +72,7 @@
                 type="text"
                 id="name"
                 name="name"
-                value="<%= user.name %>"
+                value="<%= user?.name %>"
                 class="w-full px-4 py-3 border border-gray-300 rounded-lg input-focus focus:outline-none"
                 required
               />
@@ -86,7 +87,7 @@
                 type="email"
                 id="email"
                 name="email"
-                value="<%= user.email %>"
+                value="<%= user?.email %>"
                 class="w-full px-4 py-3 border border-gray-300 rounded-lg input-focus focus:outline-none"
                 required
               />
