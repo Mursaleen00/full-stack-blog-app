@@ -16,6 +16,18 @@ router.get("/profile", async (req, res) => {
   res.render("profile", { user });
 });
 
+router.post("/profile/delete", async (req, res) => {
+  const token = req.cookies.token;
+  const user = await VerifyUser(token);
+
+  const userId = user._id;
+  const deletedUser = await userModal.findByIdAndDelete(userId);
+
+  res.clearCookie("token");
+  req.session.destroy();
+  res.redirect("/");
+});
+
 // Edit Profile Page
 router.get("/profile/edit", async (req, res) => {
   const token = req.cookies.token;

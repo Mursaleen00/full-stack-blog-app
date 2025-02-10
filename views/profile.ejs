@@ -18,24 +18,37 @@
       </div>
 
       <div class="bg-white p-8 rounded-lg shadow-md">
-        <div class="flex items-center space-x-6">
+        <div class="flex flex-col items-center sm:flex-row gap-x-6">
           <img
             src="<%= user?.profilePicture %>"
             alt="Profile Picture"
             class="w-[100px] h-[100px] rounded-full object-cover"
           />
+
           <div>
-            <h2 class="text-2xl font-bold text-gray-800"><%= user?.name %></h2>
+            <h2
+              class="text-2xl font-bold text-gray-800 text-center sm:text-start"
+            >
+              <%= user?.name %>
+            </h2>
             <p class="text-gray-600"><%= user?.email %></p>
           </div>
         </div>
-        <div class="mt-8">
+        <div class="mt-8 flex justify-between items-center">
           <a
             href="/profile/edit"
-            class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all"
+            class="w-fit bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all"
           >
             Edit Profile
           </a>
+          <form action="/profile/delete" method="POST">
+            <button
+              class="w-fit bg-red-500 text-white py-3 px-4 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all"
+              type="submit"
+            >
+              Delete
+            </button>
+          </form>
         </div>
       </div>
     </div>

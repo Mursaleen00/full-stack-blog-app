@@ -27,7 +27,7 @@
         <!-- Profile Picture Upload -->
         <div class="mb-8">
           <h2 class="text-xl font-bold text-gray-800 mb-4">Profile Picture</h2>
-          <div class="flex items-center space-x-6">
+          <div class="fle flex-col items-center gap-6">
             <img
               src="<%= user?.profilePicture %>"
               alt="Profile Picture"
@@ -37,7 +37,7 @@
               action="/upload-profile-picture"
               method="POST"
               enctype="multipart/form-data"
-              class="flex items-center space-x-4"
+              class="flex items-center gap-x-4 mt-4"
             >
               <input
                 type="file"
