@@ -4,13 +4,19 @@ const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcrypt"); // For password hashing
 const jwt = require("jsonwebtoken");
 const router = express.Router();
+const multer = require("multer");
+const { profileStorage } = require("../storage/storage");
+const upload = multer({ storage: profileStorage });
 
 // Render the register page
-router.get("/register", (_, res) => res.render("auth/register"));
+router.get("/register", (_, res) => {
+  res.render("auth/register");
+});
 
 // Handle registration form submission
 router.post(
   "/register",
+  upload.single("profilePicture"),
   [
     // Validation rules
     body("email").trim().isEmail().withMessage("Invalid email address"),
@@ -29,9 +35,9 @@ router.post(
   ],
   async (req, res) => {
     const { email, password, name } = req.body;
-
     // Check for validation errors
     const errors = validationResult(req);
+
     if (!errors.isEmpty()) {
       // Pass validation errors to the view
       return res.render("auth/register", {
@@ -49,6 +55,7 @@ router.post(
         name,
         email,
         password: hashedPassword,
+        profilePicture: req.file?.path,
       });
 
       req.flash(

@@ -32,8 +32,8 @@
           Discover the talented writers behind the captivating stories.
         </p>
 
-        <% if (user?.name) { %> <%- include('partials/button', { link:"/",
-        title:"Explore Blogs" }) %> <% } %>
+        <%- include('partials/button', { link:"/blogs", title:"Explore Blogs" })
+        %>
       </div>
     </div>
 
@@ -72,7 +72,6 @@
             <p class="text-gray-600 text-sm"><%= writer.email %></p>
           </div>
         </a>
-
         <% }) %>
       </div>
     </div>

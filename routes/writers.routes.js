@@ -7,6 +7,7 @@ router.get("/writers", async (req, res) => {
   const token = req.cookies.token;
   const user = await verifyUser(token);
   const writers = await userModal.find({});
+
   res.render("writers", {
     user,
     writers,

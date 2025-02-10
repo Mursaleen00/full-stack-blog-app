@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Writers - My Blog App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .gradient-bg {
+      background: linear-gradient(135deg, #4f46e5, #9333ea);
+    }
+
+    .card-hover {
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100">
+  <!-- Include Navbar -->
+  <%- include('partials/navbar', { user }) %>
+
+    <div class="gradient-bg py-20">
+      <div class="max-w-4xl mx-auto text-center px-4">
+        <h1 class="text-5xl font-bold text-white mb-6">
+          Explore the Blogs & Stories
+        </h1>
+        <p class="text-xl text-gray-200 mb-8">
+          Discover a world of captivating stories and insightful perspectives.
+        </p>
+
+        <!-- <%- include('partials/button', { link:"/writers", title:"Explore Writers" }) %> -->
+      </div>
+    </div>
+
+    <!-- Writers List Section -->
+    <div class="max-w-6xl mx-auto px-4 py-16">
+      <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-800">All Blogs & Stories</h1>
+
+        <button
+          class="w-fit bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all"
+          onclick="window.location.href='/add-blog'">
+          Add Blog
+        </button>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="mb-8">
+        <input type="text" placeholder="Search writers..."
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+
+      <!-- Writers Grid -->
+
+      <% if (blogs.length) { %>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Writer Card -->
+          <% blogs.forEach(blog=> { %> <%- include('partials/blog-card', { blog, profilePicture: blog?.authorProfile,
+              title: blog?.title, content: blog?.content, image: blog?.image,_id: blog?._id }) %>
+              <% }) %>
+        </div>
+        <% } else { %>
+          <p class="text-center font-semibold text-3xl py-10">No Blogs</p>
+          <% } %>
+    </div>
+
+    <!-- Include Footer -->
+    <%- include('partials/footer') %>
+</body>
+
+</html>

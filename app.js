@@ -17,6 +17,7 @@ const LoginRoute = require("./routes/login.routes");
 const WritersRoute = require("./routes/writers.routes");
 const ProfileRoute = require("./routes/profile.routes");
 const RegisterRoute = require("./routes/register.routes");
+const BlogsRoute = require("./routes/blogs.routes");
 
 app.use(
   session({
@@ -61,5 +62,6 @@ app.use("/auth", RegisterRoute);
 app.use("/", HomeRoute);
 app.use("/", ProfileRoute);
 app.use("/", WritersRoute);
+app.use("/", BlogsRoute);
 
 app.listen(3000);

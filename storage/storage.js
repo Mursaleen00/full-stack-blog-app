@@ -11,11 +11,21 @@ const profileStorage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: "profile-pictures",
-    allowedFormats: ["jpeg", "png", "jpg"],
+    allowedFormats: ["jpeg", "png", "jpg", "webp"],
     transformation: [{ width: 200, height: 200, crop: "fill" }],
+  },
+});
+
+const blogImageStorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "blog-pictures",
+    allowedFormats: ["jpeg", "png", "jpg", "webp"],
+    transformation: [{ width: 1000, height: 500, crop: "fill" }],
   },
 });
 
 module.exports = {
   profileStorage,
+  blogImageStorage,
 };

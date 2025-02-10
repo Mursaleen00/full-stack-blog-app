@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home - My Blog App</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      .gradient-bg {
-        background: linear-gradient(135deg, #4f46e5, #9333ea);
-      }
-      .card-hover {
-        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-      }
-      .card-hover:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-          0 10px 10px -5px rgba(0, 0, 0, 0.04);
-      }
-    </style>
-  </head>
-  <body class="bg-gray-100">
-    <!-- Navbar -->
-    <%- include('partials/navbar', { user }) %>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home - My Blog App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .gradient-bg {
+      background: linear-gradient(135deg, #4f46e5, #9333ea);
+    }
+
+    .card-hover {
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100">
+  <!-- Navbar -->
+  <%- include('partials/navbar', { user }) %>
 
     <!-- Hero Section -->
     <div class="gradient-bg py-20">
@@ -34,32 +38,67 @@
           writers.
         </p>
 
-        <% if (user?.name) { %> <%- include('partials/button', {
-        link:"/writers", title:"Explore Writers" }) %> <% } else { %> <%-
-        include('partials/button', { link: '/auth/register', title:"Get Started"
-        }) %> <% } %>
+        <% if (user?.name) { %> <%- include('partials/button', { link:"/writers", title:"Explore Writers" }) %>
+            <% } else { %> <%- include('partials/button', { link: '/auth/register' , title:"Get Started" }) %>
+                <% } %>
       </div>
     </div>
 
     <!-- Featured Blogs Section -->
     <div class="max-w-6xl mx-auto px-4 py-16">
-      <h2 class="text-3xl font-bold text-gray-800 mb-8">Featured Blogs</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Blog Card -->
-        <%- include('partials/blog-card', {
-        profilePicture:"https://placehold.co/600x400" }) %> <%-
-        include('partials/blog-card', {
-        profilePicture:"https://placehold.co/600x400" }) %> <%-
-        include('partials/blog-card', { profilePicture: undefined }) %> <%-
-        include('partials/blog-card', { profilePicture: undefined }) %>
-
-        <!-- Repeat Blog Cards as Needed -->
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-3xl font-bold text-gray-800">Featured Blogs</h2>
+        <%- include('partials/button', { link:"/blogs", title:"View All" }) %>
       </div>
+
+      <% if (allBlogModel.length) { %>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Writer Card -->
+          <% allBlogModel.forEach(blog=> { %> <%- include('partials/blog-card', { blog, profilePicture:
+              blog?.authorProfile, title: blog?.title, content: blog?.content, image: blog?.image, _id: blog?._id }) %>
+              <% }) %>
+        </div>
+        <% } else { %>
+          <p class="text-center font-semibold text-3xl py-10">No Blogs</p>
+          <% } %>
+    </div>
+
+    <!-- Writers Section -->
+    <div class="max-w-6xl mx-auto px-4 py-16">
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-3xl font-bold text-gray-800">Best Writers</h2>
+        <%- include('partials/button', { link:"/writers", title:"View All" }) %>
+      </div>
+
+
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <!-- Writer Card -->
+        <% writers.forEach(writer=> { %>
+          <a href="/writer/<%= writer.id %>"
+            class="bg-white p-6 rounded-lg flex items-center hadow-md overflow-hidden card-hover">
+            <div class="h-fit flex items-center justify-center">
+              <img src="<%= writer.profilePicture %>" class="rounded-full w-20 h-20 object-cover"
+                alt="<%= writer.name %>" />
+            </div>
+            <div class="px-6 py-4">
+              <h2 class="text-xl font-semibold text-gray-800">
+                <%= writer.name %>
+              </h2>
+              <p class="text-gray-600 text-sm">
+                <%= writer.email %>
+              </p>
+            </div>
+          </a>
+          <% }) %>
+      </div>
+    </div>
+
     </div>
 
     <!-- Footer -->
     <%- include('partials/footer') %>
-  </body>
+</body>
+
 </html>
 
 <!-- user?. -->
