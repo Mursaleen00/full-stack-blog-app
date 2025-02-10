@@ -1,43 +1,83 @@
-<nav class="bg-white shadow-lg sticky top-0 z-50">
-  <div class="max-w-6xl mx-auto pl-4">
+<nav class="bg-white shadow-lg">
+  <div class="max-w-6xl mx-auto px-4 relative">
     <div class="flex justify-between items-center py-4">
+      <!-- Logo -->
       <a href="/" class="text-2xl font-bold text-gray-800">My Blog App</a>
 
-      <div>
-        <% if (user?.name) { %>
-        <!-- Display Profile Picture -->
-        <div class="flex items-center gap-x-2">
-          <div class="flex items-center gap-x-2">
-            <p class="text-xl font-semibold hidden sm:block">
-              <%= user?.name %>
-            </p>
-            <a href="/profile">
-              <img
-                src="<%= user?.profilePicture %>"
-                alt="Profile Picture"
-                class="w-[50px] h-[50px] rounded-full object-cover cursor-pointer"
-              />
-            </a>
-          </div>
+      <!-- Hamburger Menu (Mobile) -->
+      <div class="md:hidden">
+        <button
+          class="text-gray-800 menu-toggle focus:outline-none"
+          name="menu-toggle"
+        >
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16m-7 6h7"
+            ></path>
+          </svg>
+        </button>
+      </div>
 
+      <!-- Nav Links (Desktop) -->
+      <div class="hidden md:flex items-center space-x-4">
+        <% if (user) { %>
+        <!-- Display Profile Picture -->
+        <button class="menu-toggle" name="menu-toggle">
+          <img
+            src="<%= user.profilePicture %>"
+            alt="Profile Picture"
+            class="w-10 h-10 rounded-full object-cover cursor-pointer"
+          />
+        </button>
+        <% } else { %>
+        <!-- Display Login/Register Buttons -->
+        <a href="/auth/login" class="text-gray-800 hover:text-blue-600"
+          >Login</a
+        >
+        <a href="/auth/register" class="text-gray-800 hover:text-blue-600"
+          >Register</a
+        >
+        <% } %>
+      </div>
+    </div>
+
+    <!-- Mobile Menu (Hidden by Default) -->
+    <div
+      id="mobile-menu"
+      class="hidden absolute top-full left-0 w-full bg-white shadow-lg transition-all duration-300 ease-in-out"
+    >
+      <div class="flex flex-col gap-y-4 pb-6">
+        <% if (user) { %>
+        <!-- Display Profile Link -->
+        <div class="flex flex-col gap-y-2 px-4">
+          <a href="/profile" class="text-gray-800 hover:text-blue-600">
+            Profile
+          </a>
+          <a href="/writers" class="text-gray-800 hover:text-blue-600"
+            >Writers</a
+          >
+          <a href="/blogs" class="text-gray-800 hover:text-blue-600">Blogs</a>
           <button
+            class="text-gray-800 hover:text-blue-600 text-start"
             id="logout"
-            class="inline-block bg-white text-indigo-600 py-3 px-8 rounded-lg font-semibold hover:bg-gray-100 transition-all"
           >
             Logout
           </button>
         </div>
-
         <% } else { %>
-        <!-- Display Login/Register Buttons -->
-        <a
-          href="/auth/login"
-          class="inline-block bg-white text-indigo-600 py-3 px-5 rounded-lg font-semibold hover:bg-gray-100 transition-all"
+        <!-- Display Login/Register Links -->
+        <a href="/auth/login" class="text-gray-800 hover:text-blue-600"
           >Login</a
         >
-        <a
-          href="/auth/register"
-          class="inline-block bg-white text-indigo-600 py-3 px-5 rounded-lg font-semibold hover:bg-gray-100 transition-all"
+        <a href="/auth/register" class="text-gray-800 hover:text-blue-600"
           >Register</a
         >
         <% } %>
@@ -46,9 +86,22 @@
   </div>
 </nav>
 
+<!-- JavaScript for Mobile Menu Toggle -->
 <script>
+  const menuToggle = document.querySelectorAll(".menu-toggle");
+  const mobileMenu = document.getElementById("mobile-menu");
+
+  menuToggle.forEach((each) =>
+    each.addEventListener("click", () => {
+      console.log("clicked");
+      mobileMenu.classList.toggle("hidden");
+    })
+  );
+
   document.getElementById("logout").addEventListener("click", function () {
     document.cookie = "token" + "=;expires=Thu, 01 Jan 1970 00:00:01 GMT;";
     window.location.href = "/auth/login";
   });
 </script>
+
+<script></script>
