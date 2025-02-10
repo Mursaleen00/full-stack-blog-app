@@ -1,34 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.tailwindcss.com"></script>
 
-    <title>Document</title>
-  </head>
-  <body class="bg-gray-100">
-    <%- include('../partials/navbar', { user }) %>
-    <div class="max-w-4xl mx-auto px-4 flex flex-col gap-y-8 py-16">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .gradient-bg {
+      background: linear-gradient(135deg, #4f46e5, #9333ea);
+    }
+
+    .card-hover {
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+  </style>
+
+  <title>Document</title>
+</head>
+
+<body class="bg-gray-100">
+  <%- include('../partials/navbar', { user }) %>
+    <div class="px-4 flex max-w-6xl mx-auto flex-col gap-y-8 py-16">
       <%- include('../partials/back-button') %>
 
-      <div
-        class="bg-white p-6 rounded-lg flex items-center hadow-md overflow-hidden card-hover"
-      >
-        <div class="h-fit flex items-center justify-center">
-          <img
-            src="<%= writer?.profilePicture %>"
-            class="rounded-full w-20 h-20 object-cover"
-            alt="<%= writer?.name %>"
-          />
+        <div class="bg-white p-6 rounded-lg flex items-center shadow-md overflow-hidden card-hover">
+          <div class="h-fit flex items-center justify-center">
+            <img src="<%= writer?.profilePicture %>" class="rounded-full w-20 h-20 object-cover"
+              alt="<%= writer?.name %>" />
+          </div>
+          <div class="px-6 py-4">
+            <h2 class="text-xl font-semibold text-gray-800">
+              <%= writer?.name %>
+            </h2>
+            <p class="text-gray-600 text-sm">
+              <%= writer?.email %>
+            </p>
+          </div>
         </div>
-        <div class="px-6 py-4">
-          <h2 class="text-xl font-semibold text-gray-800">
-            <%= writer?.name %>
-          </h2>
-          <p class="text-gray-600 text-sm"><%= writer?.email %></p>
-        </div>
-      </div>
+
+        <h2 class="text-3xl font-bold text-gray-800">My Blogs</h2>
+        <% if (blogs.length) { %>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Writer Card -->
+            <% blogs?.forEach(blog=> { %> <%- include('../partials/blog-card', { blog, profilePicture:
+                blog?.authorProfile, title: blog?.title, content: blog?.content, image: blog?.image,_id: blog?._id }) %>
+                <% }) %>
+          </div>
+          <% } else { %>
+            <p class="text-center font-semibold text-3xl py-10">No Blogs</p>
+            <% } %>
+
+              <!-- Footer -->
     </div>
-  </body>
+    <%- include('../partials/footer') %>
+</body>
+
 </html>

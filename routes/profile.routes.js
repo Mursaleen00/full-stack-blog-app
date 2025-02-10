@@ -21,7 +21,7 @@ router.post("/profile/delete", async (req, res) => {
   const user = await VerifyUser(token);
 
   const userId = user._id;
-  const deletedUser = await userModal.findByIdAndDelete(userId);
+  await userModal.findByIdAndDelete(userId);
 
   res.clearCookie("token");
   req.session.destroy();
