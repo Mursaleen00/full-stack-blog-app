@@ -8,6 +8,7 @@ This is a **learning-based project** to build a full-stack blog application usin
 - **Backend**: Express + Node.js
 - **Database**: MongoDB + Mongoose
 - **Authentication**: JWT (JSON Web Tokens)
+- **Cloud Storage**: Cloudinary
 - **File Upload**: Multer
 - **Form Validation**: Express Validator
 - **Environment Variables**: Dotenv
