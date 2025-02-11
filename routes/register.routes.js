@@ -20,11 +20,7 @@ router.post(
   [
     // Validation rules
     body("email").trim().isEmail().withMessage("Invalid email address"),
-    body("password")
-      .trim()
-      .isString()
-      .isStrongPassword()
-      .withMessage("Password must be strong"),
+    body("password").trim().isString(),
     body("name").trim().isString().withMessage("Name must be a string"),
     body("confirmPassword").custom((value, { req }) => {
       if (value !== req.body.password) {
