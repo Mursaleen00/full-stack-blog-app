@@ -13,7 +13,7 @@ router.get("/writers", async (req, res) => {
   const selectedUsers = blogs.map((blog) => blog.authorId);
 
   const writers = await userModal.find({
-    _id: selectedUsers.filter((id) => id !== user._id),
+    _id: selectedUsers.filter((id) => id !== user?._id),
   });
 
   const allWriters = writers.filter((writer) => {

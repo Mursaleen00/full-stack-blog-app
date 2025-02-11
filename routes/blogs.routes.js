@@ -73,7 +73,7 @@ router.get("/blogs/:id", async (req, res) => {
   const user = await VerifyUser(token);
   const blog = await blogModel.findById(id);
 
-  const isAuthor = blog.authorId.toString() === user._id.toString();
+  const isAuthor = blog.authorId.toString() === user?._id.toString();
   const date = moment(blog?.date).format("LLL");
 
   res.render("blogs/slug", {
