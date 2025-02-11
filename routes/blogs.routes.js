@@ -5,6 +5,7 @@ const VerifyUser = require("../utils/get-verify-user.util");
 const multer = require("multer");
 const { blogImageStorage } = require("../storage/storage");
 const upload = multer({ storage: blogImageStorage });
+const moment = require("moment");
 
 router.get("/blogs", async (req, res) => {
   const token = req.cookies.token;
@@ -35,6 +36,33 @@ router.post("/add-blog", upload.single("image"), async (req, res) => {
   });
 
   res.redirect("/blogs");
+});
+
+router.get("/blogs/:id", async (req, res) => {
+  const token = req.cookies.token;
+  const id = req.params.id;
+
+  const user = await VerifyUser(token);
+  const blog = await blogModel.findById(id);
+
+  const isAuthor = blog.authorId.toString() === user._id.toString();
+  const date = moment(blog?.date).format("LLL");
+
+  res.render("blogs/slug", {
+    user,
+    blog,
+    isAuthor,
+    date,
+  });
+});
+
+router.post("/blog/delete/:id", async (req, res) => {
+  const token = req.cookies.token;
+  const id = req.params.id;
+
+  const user = await VerifyUser(token);
+  await blogModel.findByIdAndDelete(id);
+  res.redirect(`/writer/${user._id}`);
 });
 
 module.exports = router;

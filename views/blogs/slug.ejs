@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .gradient-bg {
+      background: linear-gradient(135deg, #4f46e5, #9333ea);
+    }
+
+    .card-hover {
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+  </style>
+
+  <title>Document</title>
+</head>
+
+<body class="bg-gray-100">
+  <%- include('../partials/navbar', { user }) %>
+    <div class="px-4 flex max-w-6xl mx-auto flex-col gap-y-6 py-16">
+      <%- include('../partials/back-button') %>
+
+
+        <div class="flex items-end justify-between">
+          <div class="flex items-center overflow-hidden">
+            <div class="h-fit flex items-center justify-center">
+              <img src="<%= blog?.authorProfile %>" class="rounded-full w-20 h-20 object-cover shadow-lg"
+                alt="<%= blog?.authorName %>" />
+            </div>
+            <div class="px-4 py-4">
+              <h2 class="text-xl font-semibold text-gray-800">
+                <%= blog?.authorName %>
+              </h2>
+              <a href="/writer/<%= blog?.authorId %>" class="text-gray-600 text-sm">
+                Read more
+              </a>
+            </div>
+          </div>
+
+          <% if (isAuthor) { %>
+            <div class="flex items-center gap-x-3">
+              <a href="/blog/edit/<%= blog?._id %>" class="text-blue-500 hover:text-blue-700">
+                <img src="/icons/edit.png" alt="" width="24" height="24">
+              </a>
+              <form action="/blog/delete/<%= blog?._id %>" method="POST">
+                <button class="text-blue-500 hover:text-blue-700">
+                  <img src="/icons/delete.png" alt="" width="24" height="24"></button>
+                </button>
+              </form>
+            </div>
+            <% } %>
+        </div>
+
+
+        <div class="flex flex-col w-full gap-y-4">
+          <div class="flex items-end justify-between">
+            <h2 class="text-2xl font-bold text-gray-800">
+              <%= blog?.title %>
+            </h2>
+            <p class="text-gray-600 text-sm text-end font-semibold">
+              <%= date %>
+            </p>
+          </div>
+          <img src="<%= blog?.image %>" class="rounded-lg w-full h-full shadow-lg" alt="">
+        </div>
+
+
+        <p class="text-gray-600 text-sm font-medium">
+          <%= blog?.content %>
+        </p>
+    </div>
+
+    <!-- Footer -->
+    <%- include('../partials/footer') %>
+
+
+</body>
+
+</html>

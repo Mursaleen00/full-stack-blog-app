@@ -53,9 +53,10 @@
 
       <% if (allBlogModel.length) { %>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- Writer Card -->
+          <!-- Blogs Card -->
           <% allBlogModel.forEach(blog=> { %> <%- include('partials/blog-card', { blog, profilePicture:
-              blog?.authorProfile, title: blog?.title, content: blog?.content, image: blog?.image, _id: blog?._id }) %>
+              blog?.authorProfile, title: blog?.title, content: blog?.content, image: blog?.image, _id: blog?._id,
+              writerId: blog.authorId }) %>
               <% }) %>
         </div>
         <% } else { %>
