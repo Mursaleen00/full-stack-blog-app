@@ -9,15 +9,24 @@ const moment = require("moment");
 
 router.get("/blogs", async (req, res) => {
   const token = req.cookies.token;
+  const search = req.query.search;
   const user = await VerifyUser(token);
+
   const allBlogModel = (await blogModel.find().where()).reverse();
-  res.render("blogs", { user, blogs: allBlogModel });
+
+  const blogs = allBlogModel.filter((blog) => {
+    if (search)
+      return blog.content.toLowerCase().includes(search.toLowerCase());
+    else return allBlogModel;
+  });
+
+  res.render("blogs", { user, blogs, search });
 });
 
 router.get("/add-blog", async (_, res) => res.render("add-blog"));
 
 router.post("/add-blog", upload.single("image"), async (req, res) => {
-  const { title, content, image } = req.body;
+  const { title, content } = req.body;
 
   const token = req.cookies.token;
   const user = await VerifyUser(token);

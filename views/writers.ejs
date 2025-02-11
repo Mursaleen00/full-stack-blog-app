@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Writers - My Blog App</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      .gradient-bg {
-        background: linear-gradient(135deg, #4f46e5, #9333ea);
-      }
-      .card-hover {
-        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-      }
-      .card-hover:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-          0 10px 10px -5px rgba(0, 0, 0, 0.04);
-      }
-    </style>
-  </head>
-  <body class="bg-gray-100">
-    <!-- Include Navbar -->
-    <%- include('partials/navbar', { user }) %>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Writers - My Blog App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .gradient-bg {
+      background: linear-gradient(135deg, #4f46e5, #9333ea);
+    }
+
+    .card-hover {
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100">
+  <!-- Include Navbar -->
+  <%- include('partials/navbar', { user }) %>
 
     <div class="gradient-bg py-20">
       <div class="max-w-4xl mx-auto text-center px-4">
@@ -32,8 +36,7 @@
           Discover the talented writers behind the captivating stories.
         </p>
 
-        <%- include('partials/button', { link:"/blogs", title:"Explore Blogs" })
-        %>
+        <%- include('partials/button', { link:"/blogs", title:"Explore Blogs" }) %>
       </div>
     </div>
 
@@ -42,41 +45,36 @@
       <h1 class="text-3xl font-bold text-gray-800 mb-8">All Writers</h1>
 
       <!-- Search Bar -->
-      <div class="mb-8">
-        <input
-          type="text"
-          placeholder="Search writers..."
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+      <form class="mb-8" action="/writers" method="GET">
+        <input type="search" placeholder="Search writers..." name="search" value="<%= search %>"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </form>
 
       <!-- Writers Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         <!-- Writer Card -->
-        <% writers.forEach(writer => { %>
-        <a
-          href="/writer/<%= writer.id %>"
-          class="bg-white p-6 rounded-lg flex items-center hadow-md overflow-hidden card-hover"
-        >
-          <div class="h-fit flex items-center justify-center">
-            <img
-              src="<%= writer.profilePicture %>"
-              class="rounded-full w-20 h-20 object-cover"
-              alt="<%= writer.name %>"
-            />
-          </div>
-          <div class="px-6 py-4">
-            <h2 class="text-xl font-semibold text-gray-800">
-              <%= writer.name %>
-            </h2>
-            <p class="text-gray-600 text-sm"><%= writer.email %></p>
-          </div>
-        </a>
-        <% }) %>
+        <% writers.forEach(writer=> { %>
+          <a href="/writer/<%= writer.id %>"
+            class="bg-white p-6 rounded-lg flex items-center hadow-md overflow-hidden card-hover">
+            <div class="h-fit flex items-center justify-center">
+              <img src="<%= writer.profilePicture %>" class="rounded-full w-20 h-20 object-cover"
+                alt="<%= writer.name %>" />
+            </div>
+            <div class="px-6 py-4">
+              <h2 class="text-xl font-semibold text-gray-800">
+                <%= writer.name %>
+              </h2>
+              <p class="text-gray-600 text-sm">
+                <%= writer.email %>
+              </p>
+            </div>
+          </a>
+          <% }) %>
       </div>
     </div>
 
     <!-- Include Footer -->
     <%- include('partials/footer') %>
-  </body>
+</body>
+
 </html>

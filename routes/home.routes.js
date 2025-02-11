@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
   const user = await VerifyUser(token);
 
   const allBlogModel = (await blogModel.find().where()).reverse().splice(0, 6);
-  const writers = (await userModal.find().where()).splice(0, 6).reverse();
+  const writers = (await userModal.find().where()).reverse().splice(0, 6);
 
   res.render("index", {
     user,

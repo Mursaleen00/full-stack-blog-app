@@ -6,12 +6,26 @@ const blogModal = require("../models/blog.model");
 
 router.get("/writers", async (req, res) => {
   const token = req.cookies.token;
+  const search = req.query.search;
   const user = await verifyUser(token);
-  const writers = await userModal.find();
+  const blogs = await blogModal.find();
+
+  const selectedUsers = blogs.map((blog) => blog.authorId);
+
+  const writers = await userModal.find({
+    _id: selectedUsers.filter((id) => id !== user._id),
+  });
+
+  const allWriters = writers.filter((writer) => {
+    if (search)
+      return writer.content.toLowerCase().includes(search.toLowerCase());
+    else return writers;
+  });
 
   res.render("writers", {
     user,
-    writers,
+    writers: allWriters.reverse(),
+    search,
   });
 });
 

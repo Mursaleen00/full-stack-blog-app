@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const userModal = require("../models/register.model");
+const blogsModal = require("../models/blog.model");
 
 const VerifyUser = require("../utils/get-verify-user.util");
 
@@ -58,6 +59,13 @@ router.post(
     const token = req.cookies.token;
     const user = await VerifyUser(token);
     const userId = user._id;
+
+    await blogsModal.updateMany(
+      { authorId: userId },
+      {
+        authorProfile: req.file.path,
+      }
+    );
 
     await userModal.findByIdAndUpdate(userId, {
       profilePicture: req.file.path,
