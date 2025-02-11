@@ -25,6 +25,25 @@ router.get("/blogs", async (req, res) => {
 
 router.get("/add-blog", async (_, res) => res.render("add-blog"));
 
+router.get("/edit-blog/:id", async (req, res) => {
+  const id = req.params.id;
+  const blog = await blogModel.findById(id);
+  res.render("blogs/edit", { blog });
+});
+
+router.post("/edit-blog/:id", upload.single("image"), async (req, res) => {
+  const { title, content } = req.body;
+  const id = req.params.id;
+
+  await blogModel.findByIdAndUpdate(id, {
+    title,
+    content,
+    image: req.file?.path,
+  });
+
+  res.redirect("/blogs");
+});
+
 router.post("/add-blog", upload.single("image"), async (req, res) => {
   const { title, content } = req.body;
 

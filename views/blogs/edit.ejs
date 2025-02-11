@@ -37,10 +37,10 @@
                 through words.
             </p>
         </div>
-        <form action="/add-blog" method="POST" enctype="multipart/form-data">
+        <form action="/edit-blog/<%= blog?._id %>" method="POST" enctype="multipart/form-data">
             <div class="mb-6">
                 <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Title</label>
-                <input type="text" id="title" name="title"
+                <input type="text" id="title" name="title" value="<%= blog?.title %>"
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg input-focus focus:outline-none"
                     placeholder="Enter Blog Title" required />
             </div>
@@ -48,37 +48,20 @@
                 <label for="content" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
                 <textarea id="content" name="content" rows="6"
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg input-focus focus:outline-none resize-none"
-                    placeholder="Enter blog description" required></textarea>
+                    placeholder="Enter blog description" required><%= blog?.content %></textarea>
             </div>
 
             <label for="dropzone-file">
-                <div id="upload"
-                    class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 mb-6">
-                    <div class="flex flex-col items-center justify-center">
-                        <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                        </svg>
-                        <p class="mb-2 font-semibold text-sm text-gray-500 dark:text-gray-400">
-                            Click to upload
-                        </p>
-                        <p class="text-xs text-gray-500 dark:text-gray-400">
-                            PNG, JPG or JPEG (MAX. 800x400px)
-                        </p>
-                    </div>
+                <input id="dropzone-file" type="file" class="hidden" name="image" accept="image/*"
+                    onchange="displayImage(event)" />
 
-                    <input id="dropzone-file" type="file" class="hidden" name="image" accept="image/*"
-                        onchange="displayImage(event)" />
-                </div>
-
-                <img id="imageDisplay" src="" alt="Uploaded Image"
-                    style="max-width: 100%; display: none; border-radius: 8px;" class="shadow-lg mb-6" />
+                <img id="imageDisplay" src="<%= blog?.image %>" alt="Uploaded Image"
+                    style="max-width: 100%; display: block; border-radius: 8px;" class="shadow-lg mb-6" />
             </label>
 
             <button type=" submit"
                 class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all">
-                Post Blog
+                Save
             </button>
         </form>
         <div class="mt-6 text-center">

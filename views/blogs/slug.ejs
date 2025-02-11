@@ -47,7 +47,7 @@
 
           <% if (isAuthor) { %>
             <div class="flex items-center gap-x-3">
-              <a href="/blog/edit/<%= blog?._id %>" class="text-blue-500 hover:text-blue-700">
+              <a href="/edit-blog/<%= blog?._id %>" class="text-blue-500 hover:text-blue-700">
                 <img src="/icons/edit.png" alt="" width="24" height="24">
               </a>
               <form action="/blog/delete/<%= blog?._id %>" method="POST">
